@@ -1,0 +1,21 @@
+{
+  "name": "voodooism/php-genetic-algorithm",
+  "type": "library",
+  "description": "Simple php algorithm",
+  "require": {
+    "php": "^7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Voodooism\\Genetic\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Voodooism\\Genetic\\Test\\": "tests/"
+    }
+  }
+}

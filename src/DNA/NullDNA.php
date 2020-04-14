@@ -7,6 +7,11 @@ namespace Voodooism\Genetic\DNA;
 use Voodooism\Genetic\DNA\Gene\AbstractGene;
 use Voodooism\Genetic\DNA\Gene\NullGene;
 
+/**
+ * DNA Stub
+ *
+ * @package Voodooism\Genetic\DNA
+ */
 class NullDNA extends AbstractDNA
 {
     /**

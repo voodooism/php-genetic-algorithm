@@ -7,20 +7,38 @@ namespace Voodooism\Genetic\DNA;
 use Exception;
 use RuntimeException;
 use Voodooism\Genetic\DNA\Gene\ASCIIStringGene;
+use Webmozart\Assert\Assert;
 
+/**
+ * Class ASCIIStringDNA
+ *
+ * @package Voodooism\Genetic\DNA
+ */
 class ASCIIStringDNA extends AbstractDNA
 {
     /**
+     * Fitness exponent.
+     * The more exponent is the faster result of a fitness function grows.
+     */
+    private const EXP = 100;
+
+    /**
+     * Contains the goal of evolution.
+     *
      * @var string
      */
     private $target;
 
     /**
+     * The length of the goal string.
+     *
      * @var int
      */
     private $length;
 
     /**
+     * Every character in a phrase is a gene.
+     *
      * @var ASCIIStringGene[]
      */
     protected $genes;
@@ -35,6 +53,8 @@ class ASCIIStringDNA extends AbstractDNA
      */
     public function __construct(string $target, array $genes = [])
     {
+        Assert::allIsInstanceOf($genes, ASCIIStringGene::class);
+
         $this->target = $target;
         $this->length = strlen($target);
         $this->genes = $genes;
@@ -94,7 +114,7 @@ class ASCIIStringDNA extends AbstractDNA
         }
 
         $this->fitness = $score / $this->length;
-        $this->fitness = $this->fitness ** 100;
+        $this->fitness = $this->fitness ** self::EXP;
     }
 
     /**

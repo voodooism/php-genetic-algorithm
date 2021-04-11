@@ -6,11 +6,6 @@ namespace Voodooism\Genetic\DNA\Gene;
 
 use Exception;
 
-/**
- * Class MathGene
- *
- * @package Voodooism\Genetic\DNA\Gene
- */
 class MathGene extends AbstractGene
 {
     /**
@@ -20,25 +15,15 @@ class MathGene extends AbstractGene
 
     /**
      * The lowest possible value (inclusive).
-     *
-     * @var float
      */
-    private $from;
+    private float $from;
 
     /**
-     * The lowest possible value (inclusive).
-     *
-     * @var float
+     * The highest possible value (inclusive).
      */
-    private $to;
+    private float $to;
 
     /**
-     * MathGene constructor.
-     *
-     * @param float      $from
-     * @param float      $to
-     * @param float|null $value
-     *
      * @throws Exception
      */
     public function __construct(float $from, float $to, ?float $value = null)
@@ -48,9 +33,12 @@ class MathGene extends AbstractGene
         $this->value = $value ?? $this->generate();
     }
 
+    public function getValue(): float
+    {
+        return $this->value;
+    }
+
     /**
-     * @return $this
-     *
      * @throws Exception
      */
     public function mutate(): self
@@ -60,8 +48,6 @@ class MathGene extends AbstractGene
 
     /**
      * Generates random float accordingly to "from" and "to" parameters
-     *
-     * @return float
      *
      * @throws Exception
      */

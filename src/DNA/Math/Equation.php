@@ -6,11 +6,6 @@ namespace Voodooism\Genetic\DNA\Math;
 
 use Voodooism\Genetic\DNA\Gene\MathGene;
 
-/**
- * Class Equation
- *
- * @package Voodooism\Genetic\DNA\Math
- */
 class Equation
 {
     /**
@@ -21,11 +16,6 @@ class Equation
      */
     private $func;
 
-    /**
-     * Equation constructor.
-     *
-     * @param callable $f
-     */
     public function __construct(callable $f)
     {
         $this->func = $f;
@@ -33,8 +23,6 @@ class Equation
 
     /**
      * @param MathGene ...$genes Each of gene corresponds to a variable of equation.
-     *
-     * @return float
      */
     public function __invoke(MathGene ...$genes): float
     {

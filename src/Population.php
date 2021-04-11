@@ -6,13 +6,8 @@ namespace Voodooism\Genetic;
 
 use Voodooism\Genetic\DNA\AbstractDNA;
 use Voodooism\Genetic\DNA\NullDNA;
-use Webmozart\Assert\Assert;
+use InvalidArgumentException;
 
-/**
- * Class Population
- *
- * @package Voodooism\Genetic
- */
 final class Population
 {
     /**
@@ -20,14 +15,12 @@ final class Population
      *
      * @var AbstractDNA[]
      */
-    private $population;
+    private array $population;
 
     /**
      * Current epoch.
-     *
-     * @var int
      */
-    private $epoch;
+    private int $epoch;
 
     /**
      * It is the probability of gene mutation.
@@ -36,42 +29,31 @@ final class Population
      * Usually, it makes sense about from 0.1 to 0.2.
      *
      * IMPORTANT: If you pick 1 this will make the algorithm look like brute force.
-     *
-     * @var float
      */
-    private $mutationRate;
+    private float $mutationRate;
 
     /**
      * The best DNA of current population.
-     *
-     * @var AbstractDNA
      */
-    private $best;
+    private ?AbstractDNA $best = null;
 
     /**
      * Sum of fitness of all the population genes.
-     *
-     * @var float
      */
-    private $totalFitness;
+    private float $totalFitness;
 
     /**
      * Number of DNA in the population.
-     *
-     * @var int
      */
-    private $populationNumber;
+    private int $populationNumber;
 
-    /**
-     * Population constructor.
-     *
-     * @param AbstractDNA $DNA
-     * @param int         $populationNumber
-     * @param float       $mutationRate
-     */
     public function __construct(AbstractDNA $DNA, int $populationNumber, float $mutationRate = 0)
     {
-        Assert::nullOrLessThan($mutationRate, 1);
+        if ($mutationRate < 0 || $mutationRate > 1) {
+            throw new InvalidArgumentException(
+                'Mutation rate should be 0 or less than 1'
+            );
+        }
 
         $this->epoch = 0;
         $this->mutationRate = $mutationRate;
@@ -86,8 +68,6 @@ final class Population
 
     /**
      * Returns the best DNA of this population.
-     *
-     * @return AbstractDNA
      */
     public function getBest(): AbstractDNA
     {
@@ -96,8 +76,6 @@ final class Population
 
     /**
      * Returns sum of fitness of all the population genes.
-     *
-     * @return float
      */
     public function getTotalFitness(): float
     {
@@ -106,8 +84,6 @@ final class Population
 
     /**
      * Returns current step of evolution.
-     *
-     * @return int
      */
     public function getEpoch(): int
     {
@@ -167,8 +143,6 @@ final class Population
 
     /**
      * Selects a parent from current population depends on fitness.
-     *
-     * @return AbstractDNA
      */
     private function selectParent(): AbstractDNA
     {

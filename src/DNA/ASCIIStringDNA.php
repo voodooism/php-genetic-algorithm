@@ -5,15 +5,10 @@ declare(strict_types=1);
 namespace Voodooism\Genetic\DNA;
 
 use Exception;
+use InvalidArgumentException;
 use RuntimeException;
 use Voodooism\Genetic\DNA\Gene\ASCIIStringGene;
-use Webmozart\Assert\Assert;
 
-/**
- * Class ASCIIStringDNA
- *
- * @package Voodooism\Genetic\DNA
- */
 class ASCIIStringDNA extends AbstractDNA
 {
     /**
@@ -24,36 +19,37 @@ class ASCIIStringDNA extends AbstractDNA
 
     /**
      * Contains the goal of evolution.
-     *
-     * @var string
      */
-    private $target;
+    private string $target;
 
     /**
      * The length of the goal string.
-     *
-     * @var int
      */
-    private $length;
+    private int $length;
 
     /**
      * Every character in a phrase is a gene.
      *
-     * @var ASCIIStringGene[]
+     * @psalm-suppress NonInvariantDocblockPropertyType
+     * @var array<int, ASCIIStringGene>
      */
-    protected $genes;
+    protected array $genes;
 
     /**
-     * ASCIIStringDNA constructor.
-     *
-     * @param string $target
-     * @param array  $genes
+     * @psalm-suppress DocblockTypeContradiction
+     * @param array<int, ASCIIStringGene> $genes
      *
      * @throws Exception
      */
     public function __construct(string $target, array $genes = [])
     {
-        Assert::allIsInstanceOf($genes, ASCIIStringGene::class);
+        foreach ($genes as $gene) {
+            if (!$gene instanceof ASCIIStringGene) {
+                throw new InvalidArgumentException(
+                    sprintf('Gene should be instance of `%s`.', ASCIIStringGene::class)
+                );
+            }
+        }
 
         $this->target = $target;
         $this->length = strlen($target);
@@ -101,9 +97,6 @@ class ASCIIStringDNA extends AbstractDNA
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function evaluateFitness(): void
     {
         $score = 0;
@@ -124,18 +117,18 @@ class ASCIIStringDNA extends AbstractDNA
      */
     public function crossover(AbstractDNA $partner): AbstractDNA
     {
+        /** @var array<int, ASCIIStringGene> $genes */
         $genes = [];
 
         for ($i = 0; $i < $this->length; $i++) {
-            $genes[$i] = random_int(0, 1) ? $this->getGene($i) : $partner->getGene($i);
+            /** @var ASCIIStringGene $gene */
+            $gene = random_int(0, 1) ? $this->getGene($i) : $partner->getGene($i);
+            $genes[$i] = $gene;
         }
 
         return new self($this->target, $genes);
     }
 
-    /**
-     * @return string
-     */
     public function getValue(): string
     {
         $value = '';

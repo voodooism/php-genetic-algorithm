@@ -14,12 +14,11 @@ use Exception;
 
 class PopulationTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+
     public function testEvaluateFitness(): void
     {
         $goal = 'Where is the money, Lebowski?';
+
         $DNA = new ASCIIStringDNA($goal);
         $population = new Population($DNA, $populationNumber = 10, $mutationRate = 0.1);
 
@@ -36,14 +35,14 @@ class PopulationTest extends TestCase
     public function testCreateNewGeneration(): void
     {
         $goal = 'Where is the money, Lebowski?';
+
         $DNA = new ASCIIStringDNA($goal);
         $population = new Population($DNA, $populationNumber = 10, $mutationRate = 0.1);
 
-        $oldBest =$population->getBest();
+        $oldBest = $population->getBest();
         $oldEpoch = $population->getEpoch();
         $oldFitness = $population->getTotalFitness();
         $oldPopulation = $population->getPopulation();
-
 
         $population->evaluateFitness();
         $population->createNewGeneration();
@@ -61,8 +60,9 @@ class PopulationTest extends TestCase
      */
     public function testGeneticAlgorithmWithASCIIStringDNA(): void
     {
-        $goal       = 'Where is the money, Lebowski?';
-        $DNA        = new ASCIIStringDNA($goal);
+        $goal = 'Where is the money, Lebowski?';
+
+        $DNA = new ASCIIStringDNA($goal);
         $population = new Population($DNA, $populationNumber = 200, $mutationRate = 0.1);
 
         while ($population->getBest()->getValue() !== $goal) {

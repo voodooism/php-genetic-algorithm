@@ -55,8 +55,8 @@ class MathGene extends AbstractGene
     {
         $multiplier = 10 ** self::PRECISION;
 
-        $intFrom = (int)$this->from * $multiplier;
-        $intTo   = (int)$this->to * $multiplier;
+        $intFrom = (int)($this->from * $multiplier);
+        $intTo   = (int)($this->to * $multiplier);
 
         return random_int($intFrom, $intTo) / $multiplier;
     }

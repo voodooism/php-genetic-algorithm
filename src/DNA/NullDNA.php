@@ -9,14 +9,9 @@ use Voodooism\Genetic\DNA\Gene\NullGene;
 
 /**
  * DNA Stub
- *
- * @package Voodooism\Genetic\DNA
  */
 class NullDNA extends AbstractDNA
 {
-    /**
-     * @return mixed
-     */
     public function getFitness(): float
     {
         return 0;
@@ -30,41 +25,26 @@ class NullDNA extends AbstractDNA
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getGene(int $number): AbstractGene
     {
         return new NullGene();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function replicate(): AbstractDNA
     {
         return new self();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function mutate(float $mutationRate): void
     {
         // just stub
     }
 
-    /**
-     * @inheritDoc
-     */
     public function evaluateFitness(): void
     {
         // just stub
     }
 
-    /**
-     * @inheritDoc
-     */
     public function crossover(AbstractDNA $partner): AbstractDNA
     {
         return new self();

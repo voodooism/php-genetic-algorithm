@@ -6,8 +6,6 @@ namespace Voodooism\Genetic\DNA\Gene;
 
 /**
  * Gene stub
- *
- * @package Voodooism\Genetic\DNA\Gene
  */
 class NullGene extends AbstractGene
 {

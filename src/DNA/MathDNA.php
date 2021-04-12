@@ -7,43 +7,34 @@ namespace Voodooism\Genetic\DNA;
 use Exception;
 use Voodooism\Genetic\DNA\Gene\MathGene;
 use Voodooism\Genetic\DNA\Math\Equation;
-use Webmozart\Assert\Assert;
+use InvalidArgumentException;
 
-/**
- * Class MathDNA
- *
- * @package Voodooism\Genetic\DNA
- */
 class MathDNA extends AbstractDNA
 {
     /**
      * Indicates max or min is interesting
      * true - max
      * false - min
-     *
-     * @var bool
      */
-    private $max;
+    private bool $max;
 
     /**
      * The object equation itself
-     *
-     * @var Equation
      */
-    private $equation;
+    private Equation $equation;
 
     /**
-     * MathDNA constructor.
-     *
-     * @param Equation   $equation
-     * @param MathGene[] $genes
-     * @param bool       $max
-     *
      * @throws Exception
      */
     public function __construct(Equation $equation, array $genes, bool $max)
     {
-        Assert::allIsInstanceOf($genes, MathGene::class);
+        foreach ($genes as $gene) {
+            if (!$gene instanceof MathGene) {
+                throw new InvalidArgumentException(
+                    sprintf('Gene should be instance of `%s`.', MathGene::class)
+                );
+            }
+        }
 
         $this->genes = $genes;
         $this->max = $max;
@@ -51,6 +42,9 @@ class MathDNA extends AbstractDNA
     }
 
     /**
+     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress LessSpecificReturnStatement
+     *
      * @return MathGene[]
      */
     public function getValue(): array
@@ -61,8 +55,6 @@ class MathDNA extends AbstractDNA
     /**
      * @inheritDoc
      *
-     * @return self
-     *
      * @throws Exception
      */
     public function replicate(): AbstractDNA
@@ -70,6 +62,7 @@ class MathDNA extends AbstractDNA
         $genes = [];
 
         foreach ($this->genes as $gene) {
+            /** @var MathGene $gene */
             $genes[] = $gene->mutate();
         }
 
@@ -84,6 +77,7 @@ class MathDNA extends AbstractDNA
     public function mutate(float $mutationRate): void
     {
         foreach ($this->genes as $key => $gene) {
+            /** @var MathGene $gene */
             if ( mt_rand() / mt_getrandmax() < $mutationRate) {
                 $this->genes[$key] = $gene->mutate();
             }
@@ -91,7 +85,7 @@ class MathDNA extends AbstractDNA
     }
 
     /**
-     * @inheritDoc
+     * @psalm-suppress ArgumentTypeCoercion
      */
     public function evaluateFitness(): void
     {
@@ -103,8 +97,6 @@ class MathDNA extends AbstractDNA
 
     /**
      * @inheritDoc
-     *
-     * @return self
      *
      * @throws Exception
      */
